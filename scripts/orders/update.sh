@@ -10,7 +10,8 @@ curl "${API}${URL_PATH}/${ID}" \
 --header "Authorization: Bearer ${TOKEN}" \
 --data '{
   "order": {
-    "status": "'"${STATUS}"'"
+    "status": "'"${STATUS}"'",
+    "line_item": "'"${LINEITEM}"'"
   }
 }'
 

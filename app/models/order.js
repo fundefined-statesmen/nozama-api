@@ -11,7 +11,10 @@ const orderSchema = new mongoose.Schema({
     // Add validation for possible value set
   },
   // TODO fix lineitem array, crashes server
-  // line_item: [LineItem],
+  line_item: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'LineItem'
+  }],
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
