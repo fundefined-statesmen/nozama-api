@@ -18,7 +18,9 @@ const productSchema = new mongoose.Schema({
     required: true
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  toObject: { virtuals: true },
+  toJSON: { virtuals: true }
 })
 
 module.exports = mongoose.model('Product', productSchema)
