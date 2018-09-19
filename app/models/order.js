@@ -3,16 +3,16 @@ const LineItem = require('./line-item')
 
 const orderSchema = new mongoose.Schema({
   date: {
-    type: Date,
-    required: true
+    type: Date
   },
   status: {
     type: String,
     required: true
     // Add validation for possible value set
   },
-  line_item: [LineItem],
-  user_id: {
+  // TODO fix lineitem array, crashes server
+  // line_item: [LineItem],
+  owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
