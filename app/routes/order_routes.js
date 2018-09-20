@@ -31,15 +31,7 @@ const router = express.Router()
 // INDEX
 // GET /orders
 router.get('/orders', requireToken, (req, res) => {
-  Order.find({owner: req.user._id})
-    .populate({
-      path: 'line_item',
-      model: 'LineItem',
-      populate: {
-        path: 'product_id',
-        model: 'LineItem'
-      }
-    })
+  Order.find()
     .then(orders => {
       // `orders` will be an array of Mongoose documents
       // we want to convert each one to a POJO, so we use `.map` to
@@ -57,14 +49,6 @@ router.get('/orders', requireToken, (req, res) => {
 router.get('/orders/:id', requireToken, (req, res) => {
   // req.params.id will be set based on the `:id` in the route
   Order.findById(req.params.id)
-    .populate({
-      path: 'line_item',
-      model: 'LineItem',
-      populate: {
-        path: 'product_id',
-        model: 'Product'
-      }
-    })
     .then(handle404)
     // if `findById` is succesful, respond with 200 and "order" JSON
     .then(order => res.status(200).json({ order: order.toObject() }))
@@ -76,9 +60,12 @@ router.get('/orders/:id', requireToken, (req, res) => {
 // POST /orders
 router.post('/orders', requireToken, (req, res) => {
   // set owner of new order to be current user
-  req.body.order.owner = req.user.id
+  req.body.order = {
+    owner: req.user.id
+  }
 
   Order.create(req.body.order)
+
     // respond to succesful `create` with status 201 and JSON of new "order"
     .then(order => {
       res.status(201).json({ order: order.toObject() })
@@ -94,7 +81,7 @@ router.post('/orders', requireToken, (req, res) => {
 router.patch('/orders/:id', requireToken, (req, res) => {
   // if the client attempts to change the `owner` property by including a new
   // owner, prevent that by deleting that key/value pair
-  delete req.body.order.owner
+  delete req.body.order.user_id
 
   Order.findById(req.params.id)
     .then(handle404)
@@ -111,12 +98,6 @@ router.patch('/orders/:id', requireToken, (req, res) => {
           delete req.body.order[key]
         }
       })
-      order.line_item.push(req.body.order.line_item)
-      order.save()
-      delete req.body.order.line_item
-
-console.log('req body', req.body.order)
-console.log(`just order ${order}`)
 
       // pass the result of Mongoose's `.update` to the next `.then`
       return order.update(req.body.order)
