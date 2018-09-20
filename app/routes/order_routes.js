@@ -31,7 +31,7 @@ const router = express.Router()
 // INDEX
 // GET /orders
 router.get('/orders', requireToken, (req, res) => {
-  Order.find()
+  Order.find({owner: req.user._id})
     .then(orders => {
       // `orders` will be an array of Mongoose documents
       // we want to convert each one to a POJO, so we use `.map` to
@@ -78,7 +78,7 @@ router.post('/orders', requireToken, (req, res) => {
 router.patch('/orders/:id', requireToken, (req, res) => {
   // if the client attempts to change the `owner` property by including a new
   // owner, prevent that by deleting that key/value pair
-  delete req.body.order.user_id
+  delete req.body.order.owner
 
   Order.findById(req.params.id)
     .then(handle404)
@@ -95,6 +95,12 @@ router.patch('/orders/:id', requireToken, (req, res) => {
           delete req.body.order[key]
         }
       })
+      order.line_item.push(req.body.order.line_item)
+      order.save()
+      delete req.body.order.line_item
+
+console.log('req body', req.body.order)
+console.log(`just order ${order}`)
 
       // pass the result of Mongoose's `.update` to the next `.then`
       return order.update(req.body.order)

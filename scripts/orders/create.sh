@@ -9,11 +9,7 @@ curl "${API}${URL_PATH}" \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer ${TOKEN}" \
   --data '{
-    "order": {
-      "date": "'"${DATE}"'",
-      "status": "'"${STATUS}"'",
-      "owner": "'"${OWNER}"'"
-    }
+    "order": {}
   }'
 
 echo
