@@ -38,7 +38,7 @@ router.get('/orders', requireToken, (req, res) => {
       model: 'LineItem',
       populate: {
         path: 'product_id',
-        model: 'LineItem'
+        model: 'Product'
       }
     })
     .then(orders => {
