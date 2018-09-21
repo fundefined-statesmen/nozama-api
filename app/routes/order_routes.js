@@ -76,7 +76,9 @@ router.get('/orders/:id', requireToken, (req, res) => {
 // POST /orders
 router.post('/orders', requireToken, (req, res) => {
   // set owner of new order to be current user
-  req.body.order.owner = req.user.id
+  req.body.order = {
+    owner: req.user.id
+  }
 
   Order.create(req.body.order)
     // respond to succesful `create` with status 201 and JSON of new "order"
