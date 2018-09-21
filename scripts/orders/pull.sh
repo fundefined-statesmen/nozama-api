@@ -1,9 +1,9 @@
 #!/bin/bash
 
 API="http://localhost:4741"
-URL_PATH="/orders/pull"
+URL_PATH="/orders"
 
-curl "${API}${URL_PATH}/${ID}" \
+curl "${API}${URL_PATH}/${ID}/pull" \
   --include \
   --request PATCH \
   --header "Content-Type: application/json" \

@@ -129,7 +129,7 @@ router.patch('/orders/:id', requireToken, (req, res) => {
 
 // Delete Line_Item
 // PATCH /orders/5a7db6c74d55bc51bdf39793
-router.patch('/orders/pull/:id', requireToken, (req, res) => {
+router.patch('/orders/:id/pull', requireToken, (req, res) => {
   // if the client attempts to change the `owner` property by including a new
   // owner, prevent that by deleting that key/value pair
   delete req.body.order.owner
