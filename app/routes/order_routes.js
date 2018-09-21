@@ -5,6 +5,7 @@ const passport = require('passport')
 
 // pull in Mongoose model for orders
 const Order = require('../models/order')
+const LineItem = require('../models/lineitem')
 
 // we'll use this to intercept any errors that get thrown and send them
 // back to the client with the appropriate status code
@@ -117,8 +118,40 @@ router.patch('/orders/:id', requireToken, (req, res) => {
       order.save()
       delete req.body.order.line_item
 
-console.log('req body', req.body.order)
-console.log(`just order ${order}`)
+      // pass the result of Mongoose's `.update` to the next `.then`
+      return order.update(req.body.order)
+    })
+    // if that succeeded, return 204 and no JSON
+    .then(() => res.sendStatus(204))
+    // if an error occurs, pass it to the handler
+    .catch(err => handle(err, res))
+})
+
+// Delete Line_Item
+// PATCH /orders/5a7db6c74d55bc51bdf39793
+router.patch('/orders/pull/:id', requireToken, (req, res) => {
+  // if the client attempts to change the `owner` property by including a new
+  // owner, prevent that by deleting that key/value pair
+  delete req.body.order.owner
+
+  Order.findById(req.params.id)
+    .then(handle404)
+    .then(order => {
+      // pass the `req` object and the Mongoose record to `requireOwnership`
+      // it will throw an error if the current user isn't the owner
+      requireOwnership(req, order)
+
+      // the client will often send empty strings for parameters that it does
+      // not want to update. We delete any key/value pair where the value is
+      // an empty string before updating
+      Object.keys(req.body.order).forEach(key => {
+        if (req.body.order[key] === '') {
+          delete req.body.order[key]
+        }
+      })
+      order.line_item.pull(req.body.order.line_item)
+      order.save()
+      delete req.body.order.line_item
 
       // pass the result of Mongoose's `.update` to the next `.then`
       return order.update(req.body.order)
