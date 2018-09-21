@@ -33,7 +33,6 @@ const router = express.Router()
 router.post('/lineitems', requireToken, (req, res) => {
   // set owner of new lineItem to be current user
   req.body.lineitem.owner = req.user.id
-  console.log(req.body.lineitem)
   LineItem.create(req.body.lineitem)
     // respond to succesful `create` with status 201 and JSON of new "lineItem"
     .then(lineItem => {
