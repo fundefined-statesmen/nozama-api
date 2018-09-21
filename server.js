@@ -10,6 +10,7 @@ const userRoutes = require('./app/routes/user_routes')
 const productRoutes = require('./app/routes/product_routes')
 const orderRoutes = require('./app/routes/order_routes')
 const lineitem_routes = require('./app/routes/lineitem_routes')
+const charge_routes = require('./app/routes/charge_routes')
 
 // require database configuration logic
 // `db` will be the actual Mongo URI as a string
@@ -71,12 +72,16 @@ app.use(bodyParser.json())
 // this parses requests sent by `$.ajax`, which use a different content type
 app.use(bodyParser.urlencoded({ extended: true }))
 
+//  template engine
+app.set('views', __dirname + '/app/views')
+app.set('view engine', 'pug')
 // register route files
 app.use(exampleRoutes)
 app.use(userRoutes)
 app.use(productRoutes)
 app.use(orderRoutes)
 app.use(lineitem_routes)
+app.use(charge_routes)
 
 // run API on designated port (4741 in this case)
 app.listen(port, () => {
