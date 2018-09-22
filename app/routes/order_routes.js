@@ -114,9 +114,12 @@ router.patch('/orders/:id', requireToken, (req, res) => {
           delete req.body.order[key]
         }
       })
-      order.line_item.push(req.body.order.line_item)
-      order.save()
-      delete req.body.order.line_item
+
+      if (req.body.order.line_item) {
+        order.line_item.push(req.body.order.line_item)
+        order.save()
+        delete req.body.order.line_item
+      }
 
       // pass the result of Mongoose's `.update` to the next `.then`
       return order.update(req.body.order)
