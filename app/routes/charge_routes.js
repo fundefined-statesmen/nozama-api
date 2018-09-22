@@ -11,6 +11,9 @@ const keyPublishable = process.env.PUBLISHABLE_KEY
 const keySecret = process.env.SECRET_KEY
 const stripe = require('stripe')(keySecret)
 
+console.log(process.env.PUBLISHABLE_KEY)
+console.log(process.env.SECRET_KEY)
+
 router.get('/', (req, res) => res.render('index.pug', {keyPublishable}))
 
 router.post('/charge', (req, res) => {
@@ -20,7 +23,9 @@ router.post('/charge', (req, res) => {
     description: 'anything',
     source: req.body.stripeToken
   })
-    .then(console.log)
+    .then(() => {
+      res.status(200).json({ message: 'good' })
+    })
     .catch(console.error)
 //   let amount = 2000
 //
