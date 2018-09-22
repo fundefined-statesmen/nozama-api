@@ -122,7 +122,7 @@ router.patch('/orders/:id', requireToken, (req, res) => {
       return order.update(req.body.order)
     })
     // if that succeeded, return 204 and no JSON
-    .then(() => res.sendStatus(204))
+    .then(() => res.status(200).json({ message: 'succussfully update' }))
     // if an error occurs, pass it to the handler
     .catch(err => handle(err, res))
 })

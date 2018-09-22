@@ -14,13 +14,17 @@ const stripe = require('stripe')(keySecret)
 router.get('/', (req, res) => res.render('index.pug', {keyPublishable}))
 
 router.post('/charge', (req, res) => {
+  console.log('req.body from charge route', req.body)
+
   stripe.charges.create({
-    amount: 2500,
+    amount: req.body.totalAmount,
     currency: 'usd',
     description: 'anything',
     source: req.body.stripeToken
   })
-    .then(console.log)
+    .then(() => {
+      res.status(200).json({ message: 'succesfully charge user' })
+    })
     .catch(console.error)
 //   let amount = 2000
 //
