@@ -10,6 +10,8 @@ const bcrypt = require('bcrypt')
 const bcryptSaltRounds = 10
 
 const handle = require('../../lib/error_handler')
+const customErrors = require('../../lib/custom_errors')
+const handle404 = customErrors.handle404
 const BadParamsError = require('../../lib/custom_errors').BadParamsError
 
 const User = require('../models/user')
@@ -132,6 +134,13 @@ router.delete('/sign-out', requireToken, (req, res) => {
   // save the token and respond with 204
   req.user.save()
     .then(() => res.sendStatus(204))
+    .catch(err => handle(err, res))
+})
+
+router.delete('/delete-account', requireToken, (req, res) => {
+  User.deleteOne({_id: req.user.id})
+    .then(() => res.sendStatus(204))
+    // if an error occurs, pass it to the handler
     .catch(err => handle(err, res))
 })
 

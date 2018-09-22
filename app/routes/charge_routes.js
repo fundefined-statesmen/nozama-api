@@ -11,6 +11,9 @@ const keyPublishable = process.env.PUBLISHABLE_KEY
 const keySecret = process.env.SECRET_KEY
 const stripe = require('stripe')(keySecret)
 
+console.log(process.env.PUBLISHABLE_KEY)
+console.log(process.env.SECRET_KEY)
+
 router.get('/', (req, res) => res.render('index.pug', {keyPublishable}))
 
 router.post('/charge', (req, res) => {
