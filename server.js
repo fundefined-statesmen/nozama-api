@@ -72,9 +72,6 @@ app.use(bodyParser.json())
 // this parses requests sent by `$.ajax`, which use a different content type
 app.use(bodyParser.urlencoded({ extended: true }))
 
-//  template engine
-app.set('views', __dirname + '/app/views')
-app.set('view engine', 'pug')
 // register route files
 app.use(exampleRoutes)
 app.use(userRoutes)
