@@ -114,15 +114,18 @@ router.patch('/orders/:id', requireToken, (req, res) => {
           delete req.body.order[key]
         }
       })
-      order.line_item.push(req.body.order.line_item)
-      order.save()
-      delete req.body.order.line_item
+
+      if (req.body.order.line_item) {
+        order.line_item.push(req.body.order.line_item)
+        order.save()
+        delete req.body.order.line_item
+      }
 
       // pass the result of Mongoose's `.update` to the next `.then`
       return order.update(req.body.order)
     })
     // if that succeeded, return 204 and no JSON
-    .then(() => res.sendStatus(204))
+    .then(() => res.status(200).json({ message: 'succussfully update' }))
     // if an error occurs, pass it to the handler
     .catch(err => handle(err, res))
 })
