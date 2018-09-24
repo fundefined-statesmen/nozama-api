@@ -2,8 +2,6 @@
 
 Nazama API is an e-Commerce app built with Node.js and Express.js. Users can sign up/in and select from a large list of products and can checkout and pay via the Stripe checkout API.
 
-[link to production heroku url](https://nozama-ecommerce-smst.herokuapp.com/)
-
 Link to the client app:
 [link to production client url](https://fundefined-statesmen.github.io/browser-template/#)
 
@@ -70,7 +68,7 @@ Other time-intensive features include the integration of Strip API for payment w
 Future work will include building out an inventory managment system to allow merchants to add inventory to the store.
 
 Link to Entity Relationship Diagram (ERD).
-![ERD](https://imgur.com/HOiWW92)
+[ERD](https://imgur.com/HOiWW92)
 
 
 ## Version 2 (Currently developing):
