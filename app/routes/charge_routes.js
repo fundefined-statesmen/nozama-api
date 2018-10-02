@@ -14,7 +14,6 @@ const stripe = require('stripe')(keySecret)
 console.log(process.env.PUBLISHABLE_KEY)
 console.log(process.env.SECRET_KEY)
 
-router.get('/', (req, res) => res.render('index.pug', {keyPublishable}))
 
 router.post('/charge', (req, res) => {
   console.log('req.body from charge route', req.body)

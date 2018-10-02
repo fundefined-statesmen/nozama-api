@@ -50,14 +50,14 @@ Link to the client repo:
 
 | Verb   | URI Pattern            | Controller#Action |
 |--------|------------------------|-------------------|
-| POST   | `/orders`              | `lineItem#create`   |
-| DELETE | `/orders/:id`          | `lineItem#destroy`  |
+| POST   | `/lineitems`              | `LineItem#create`   |
+| DELETE | `/lineitems/:id`          | `LineItem#destroy`  |
 
 ### Charges
 
 | Verb   | URI Pattern            | Controller#Action |
 |--------|------------------------|-------------------|
-| POST   | `/orders`              | `orders#create`   |
+| POST   | `/charge`              | `charge#create`   |
 
 ## Planning and Development process:
 The process for creating the Nozama API began with extensive planning coupled with conversation over our data relationships and how we could provide the functionality that the app required along with enough flexiblity to allow for growth without taking on unnecessary work.

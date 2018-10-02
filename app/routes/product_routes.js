@@ -1,7 +1,7 @@
 // Express docs: http://expressjs.com/en/api.html
 const express = require('express')
 
-// pull in Mongoose model for examples
+// pull in Mongoose model for products
 const Product = require('../models/product')
 
 // we'll use this to intercept any errors that get thrown and send them
@@ -12,9 +12,15 @@ const handle = require('../../lib/error_handler')
 const router = express.Router()
 
 // INDEX
-// GET /examples
+// GET /products
 router.get('/products', (req, res) => {
-  Product.find()
+  let terms = {}
+  console.log('req.query')
+  if (req.query) {
+    const phrase = new RegExp(req.query.terms, 'i')
+    terms = { $or: [ { name: phrase }, { desc: phrase } ] }
+  }
+  Product.find(terms)
     .then(products => {
       console.log(products)
       // `products` will be an array of Mongoose documents
